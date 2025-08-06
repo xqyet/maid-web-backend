@@ -9,9 +9,8 @@ use std::{net::SocketAddr};
 use tower_http::services::ServeDir;
 use std::io::Cursor;
 use std::sync::{Arc, Mutex};
-use std::io::Read;
 use std::fs::File;
-use std::io::{self, Write};
+use std::io::{self, Read, Write, BufReader};
 use std::os::windows::io::AsRawHandle;
 use gag::BufferRedirect;
 
