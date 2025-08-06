@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>MaidLang Online</title>
+    <style>
+        body { font-family: monospace; background: #121212; color: #f0f0f0; padding: 2rem; }
+        textarea { width: 100%; height: 200px; background: #1e1e1e; color: #f0f0f0; border: none; padding: 1rem; font-size: 1rem; }
+        button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; }
+        pre { background: #1e1e1e; padding: 1rem; white-space: pre-wrap; border-left: 4px solid #f72585; }
+    </style>
+</head>
+<body>
+<h1>🧹 MaidLang Online</h1>
+<textarea id="editor">serve("Hello from MaidLang!");</textarea>
+<br />
+<button onclick="runCode()">Run Maid Code</button>
+<pre id="output"></pre>
+
+<script>
+    async function runCode() {
+        const code = document.getElementById("editor").value;
+        const output = document.getElementById("output");
+        output.textContent = "⏳ Running...";
+
+        try {
+            const res = await fetch("http://127.0.0.1:3000/run", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code })
+            });
+
+            const text = await res.text();
+            output.textContent = text;
+        } catch (err) {
+            output.textContent = "❌ Failed to connect to backend.\n" + err;
+        }
+    }
+</script>
+</body>
+</html>
