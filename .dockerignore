@@ -1,0 +1,6 @@
+target
+.git
+.gitignore
+maid_output.log
+*.rs.bk
+*.lock.bk
