@@ -53,6 +53,6 @@ async fn run_code(Json(payload): Json<RunRequest>) -> String {
 
     match result {
         Some(err) => format!("❌ {}\n{}", err, captured),
-        None => format!("✅ Code executed successfully\n{}", captured),
+        None => format!("Code executed successfully\n{}", captured),
     }
 }
