@@ -7,11 +7,7 @@ use maid_lang::run;
 use serde::Deserialize;
 use std::{net::SocketAddr};
 use tower_http::services::ServeDir;
-use std::io::Cursor;
-use std::sync::{Arc, Mutex};
-use std::fs::File;
 use std::io::{self, Read, Write, BufReader};
-use std::os::windows::io::AsRawHandle;
 use gag::BufferRedirect;
 
 #[derive(Deserialize)]
