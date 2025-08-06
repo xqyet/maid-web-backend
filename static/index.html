@@ -2,22 +2,256 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Maid Online Interpreter</title>
+    <title>MaidLang Online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        body { font-family: monospace; background: #121212; color: #f0f0f0; padding: 2rem; }
-        textarea { width: 100%; height: 200px; background: #1e1e1e; color: #f0f0f0; border: none; padding: 1rem; font-size: 1rem; }
-        button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; }
-        pre { background: #1e1e1e; padding: 1rem; white-space: pre-wrap; border-left: 4px solid #f72585; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #181818;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        img {
+            width: 96px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: normal;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .main-title .highlight {
+            color: #3b82f6; /* Tailwind's text-primary (blue-500) */
+        }
+
+        .sub-title {
+            font-size: 1.875rem; /* Tailwind's text-3xl */
+            font-weight: 600;
+            color: #ccc;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .editor-container {
+            position: relative;
+            display: flex;
+            background: rgba(30, 30, 30, 0.85);
+            height: 400px;
+            flex: 1;
+            min-width: 300px;
+            outline: 1px solid black;
+            border-radius: 0;
+            font-family: monospace;
+            font-size: 1rem;
+            margin-top: 13px;
+            overflow: hidden;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+
+        .line-numbers {
+            background: #111;
+            color: #888;
+            padding: 1rem 0.5rem;
+            text-align: right;
+            user-select: none;
+            border-right: 1px solid #333;
+            overflow-y: hidden; /* 👈 This hides the scrollbar */
+            height: 100%;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .line-numbers::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        .line-numbers div {
+            height: 1.5em;
+        }
+
+        textarea {
+            flex: 1;
+            border: none;
+            resize: none;
+            background: transparent;
+            color: #f0f0f0;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 1rem;
+            height: 100%;
+            border-radius: 0;
+            overflow: auto;
+            box-sizing: border-box;
+        }
+
+        pre {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background: rgba(18, 18, 18, 0.9);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            vertical-align: top;
+            border-radius: 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 1rem;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        footer {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #2563eb;
+        }
     </style>
 </head>
 <body>
-<h1>🧹 Maid</h1>
-<textarea id="editor">serve("Maid says Hello!");</textarea>
-<br />
+<img src="/maid.png" alt="Maid mascot" />
+<h1 class="main-title">
+    Maid <span class="highlight">Programming Language</span>
+</h1>
+<h2 class="sub-title">Official Guided Web Interpreter</h2>
+
+<div class="main-container">
+    <div class="editor-container">
+        <div class="line-numbers" id="line-numbers">
+            <div>1</div>
+        </div>
+        <textarea id="editor" oninput="updateLines()">
+# function definitions
+func greet(name) {
+    serve("Welcome to " + name + "!");
+}
+
+greet("Maid");
+
+serve("Use this web terminal as you read through the textbook!");
+
+# looping
+walk i = 0 through 10 {
+    serve("'i' is equal to: " + tostring(i));
+
+    if i == 5 {
+        leave;
+    }
+}
+
+while 1 == 1 {
+    serve("Inside a while loop");
+
+    leave;
+}
+
+walk i = 0 through 5 {
+    serve(i);
+}
+
+func new_car() {
+    give "Jeep Grand Cherokee";
+}
+
+func start_driving(car) {
+    serve("Car '" + car + "' is driving");
+}
+
+func stop_driving(car) {
+    serve("Car '" + car + "' has been stopped");
+}
+
+obj my_car = new_car();
+start_driving(my_car);
+stop_driving(my_car);
+</textarea>
+
+    </div>
+
+    <pre id="output">Output will appear here...</pre>
+</div>
+
 <button onclick="runCode()">Run Maid Code</button>
-<pre id="output"></pre>
+
+<footer>
+    Developed by <a href="https://terminalsystems.net/" target="_blank">xqyet</a>
+</footer>
 
 <script>
+    function updateLines() {
+        const editor = document.getElementById("editor");
+        const lineNumbers = document.getElementById("line-numbers");
+        const lines = editor.value.split("\n").length;
+
+        lineNumbers.innerHTML = "";
+        for (let i = 1; i <= lines; i++) {
+            const div = document.createElement("div");
+            div.textContent = i;
+            lineNumbers.appendChild(div);
+        }
+    }
+
     async function runCode() {
         const code = document.getElementById("editor").value;
         const output = document.getElementById("output");
@@ -36,6 +270,12 @@
             output.textContent = "❌ Failed to connect to backend.\n" + err;
         }
     }
+
+    // Initialize line numbers on load
+    window.onload = updateLines;
+    document.getElementById("editor").addEventListener("scroll", function () {
+        document.getElementById("line-numbers").scrollTop = this.scrollTop;
+    });
 </script>
 </body>
 </html>
