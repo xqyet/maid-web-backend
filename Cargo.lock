@@ -890,9 +890,9 @@ checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 
 [[package]]
 name = "maid-lang"
-version = "1.0.1"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "110bbcfede2a596022bb58a07ce44fa953dd412092474d0169b684ed37b8f2d8"
+checksum = "6d32d81839bf89486b087644d7ed3ddba691226024a6d7a9dc709d26c1a493a3"
 dependencies = [
  "clap",
  "reqwest",
