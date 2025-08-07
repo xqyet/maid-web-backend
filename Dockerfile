@@ -8,19 +8,24 @@ COPY . .
 RUN cargo build --release
 
 # Stage 2: Create a minimal runtime image
-FROM debian:buster-slim
+FROM debian:bullseye-slim  # changed from buster-slim
 
-# Create app directory in container
+# Install required runtime dependencies (OpenSSL, etc.)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        libssl3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
 WORKDIR /app
 
-# Copy only the final executable from the builder stage
+# Copy the compiled binary and static files
 COPY --from=builder /app/target/release/maid-lang-web-backend .
-
-# Copy the static files directory
 COPY static ./static
 
-# Expose the port your Axum app listens on
+# Expose Axum listening port
 EXPOSE 3000
 
-# Start the web server
+# Start the server
 CMD ["./maid-lang-web-backend"]
