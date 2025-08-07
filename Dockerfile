@@ -8,7 +8,7 @@ COPY . .
 RUN cargo build --release
 
 # Stage 2: Create a minimal runtime image
-FROM debian:bullseye-slim  # changed from buster-slim
+FROM debian:bullseye-slim
 
 # Install required runtime dependencies (OpenSSL, etc.)
 RUN apt-get update && \
