@@ -24,7 +24,7 @@ async fn main() {
         .route("/run", post(run_code))
         .fallback_service(serve_dir); // serve index.html and assets
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     println!("🚀 MaidLang running at http://{}", addr);
 
     Server::bind(&addr)
