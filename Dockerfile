@@ -1,31 +1,29 @@
 # Stage 1: Build the Rust app
-FROM rust:latest as builder
+FROM rust:1.70 as builder
 
 WORKDIR /app
 COPY . .
 
-# Build the project in release mode
-RUN cargo build --release
+# Install OpenSSL dev libs so Rust can link against OpenSSL 1.1
+RUN apt-get update && \
+    apt-get install -y pkg-config libssl-dev && \
+    cargo build --release
 
-# Stage 2: Create a minimal runtime image
+# Stage 2: Runtime image
 FROM debian:bullseye-slim
 
-# Install required runtime dependencies (OpenSSL, etc.)
+# Install OpenSSL 1.1 for runtime
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
-        libssl3 \
+        libssl1.1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Create app directory
 WORKDIR /app
 
-# Copy the compiled binary and static files
 COPY --from=builder /app/target/release/maid-lang-web-backend .
 COPY static ./static
 
-# Expose Axum listening port
 EXPOSE 3000
 
-# Start the server
 CMD ["./maid-lang-web-backend"]
