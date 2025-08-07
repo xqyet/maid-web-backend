@@ -1,0 +1,65 @@
+# file test_all.maid: test all maid features in one go
+
+fetch std_math; # imports
+serve(math_pi); # built in functions
+obj x = 0; # object creation
+
+# looping
+walk i = 0 through 10 {
+    serve("'i' is equal to: " + tostring(i));
+
+    if i == 5 {
+        leave;
+    }
+}
+
+while 1 == 1 {
+    serve("Inside a while loop");
+
+    leave;
+}
+
+# function definitions
+func greet(name) {
+    serve("Hello my " + name + "!");
+
+    give null;
+}
+
+greet("Maid");
+
+# andrew's quicksort
+func quicksort(arr) {
+    if length(arr) <= 1 {
+        give arr;
+    } otherwise {
+        obj pivot = retrieve(arr, 0);
+        obj rest  = remove(arr, 0);
+
+        obj less    = [];
+        obj greater = [];
+
+        walk i = 0 through length(rest) {
+            obj val = retrieve(rest, i);
+
+            if val <= pivot {
+                obj less = push(less, val);
+            } otherwise {
+                obj greater = push(greater, val);
+            }
+        }
+
+        obj sorted_less    = quicksort(less);
+        obj sorted_greater = quicksort(greater);
+        obj pivot_list     = [pivot];
+
+        give append(append(sorted_less, pivot_list), sorted_greater);
+    }
+}
+
+obj unsorted = [33, 12, 18, 2, 42, 29];
+serve("Unsorted: " + tostring(unsorted));
+
+obj sorted = quicksort(unsorted);
+serve("Sorted:   " + tostring(sorted));
+

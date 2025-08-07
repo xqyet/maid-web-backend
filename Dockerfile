@@ -19,6 +19,12 @@ RUN apt-get update && \
 
 COPY --from=builder /app/target/release/maid-lang-web-backend .
 COPY static ./static
+COPY library ./library
+COPY kennels ./kennels
+
+ENV MAID_STD=/app/library
+ENV MAID_PKG=/app/kennels
+
 
 EXPOSE 3000
 CMD ["./maid-lang-web-backend"]

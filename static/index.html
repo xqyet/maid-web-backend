@@ -181,7 +181,14 @@
         <div class="line-numbers" id="line-numbers">
             <div>1</div>
         </div>
-        <textarea id="editor" oninput="updateLines()">
+        <textarea
+                id="editor"
+                oninput="updateLines()"
+                spellcheck="false"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+        >
 # function definitions
 func greet(name) {
     serve("Welcome to " + name + "!");
