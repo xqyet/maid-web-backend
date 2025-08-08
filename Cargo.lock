@@ -940,9 +940,9 @@ checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 
 [[package]]
 name = "maid-lang"
-version = "1.0.6"
+version = "1.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c954a6e0929ddfa2a5994bc5d3cbe7169206ac39cbd780aac125bc02e2920d37"
+checksum = "897bde02a88caf8debad15f849a4986cfd895d3c020accd5addbe970a6aaa24b"
 dependencies = [
  "clap",
  "dirs",
